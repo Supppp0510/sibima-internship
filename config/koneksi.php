@@ -2,9 +2,9 @@
 
 $host = "localhost";
 $user = "root";
-$pass = "Root123!";
+$pass = ""; //isi sendiri sesuai password mysql di komputer masing-masing
 $db   = "sibima-internship";
-$port = "3307";
+$port = ""; //isi sendiri sesuai port mysql di komputer masing-masing, default 3306
 
 $conn = mysqli_connect($host, $user, $pass, $db, $port);
 
