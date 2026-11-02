@@ -157,4 +157,4 @@ Dikembangkan sebagai proyek magang di Dinas PU Bina Marga Jawa Timur oleh tim ma
 
 ---
 
-&copy; 2026 SIBIMA JATIM
+&copy; 2026 IT DPU BINA MARGA JATIM
