@@ -1,135 +1,111 @@
 <?php
 
-include "../../helper/auth_admin.php";
-include "../../config/config.php";
+    include "../../helper/auth_admin.php";
+    include "../../config/config.php";
 
-$id = $_GET['id'];
+    $id = $_GET['id'];
 
-$data = mysqli_query($conn,"
+    $query_periode = mysqli_query($conn, "
 SELECT *
 FROM periode_pkl
 WHERE id='$id'
 ");
 
-if(mysqli_num_rows($data)==0){
+    if (mysqli_num_rows($query_periode) == 0) {
 
     header("Location:index.php");
     exit;
 
-}
+    }
 
-$row = mysqli_fetch_assoc($data);
+    $periode = mysqli_fetch_assoc($query_periode);
 
-include "../../include/header.php";
-include "../../include/navbar.php";
-include "../../include/sidebar.php";
+    include "../../include/header.php";
+    include "../../include/navbar.php";
+    include "../../include/sidebar.php";
 
 ?>
 
 <div class="container-fluid">
 
-<div class="card shadow">
+    <div class="card shadow">
 
-<div class="card-header bg-warning">
+        <div class="card-header bg-warning">
 
-<h4>Edit Periode PKL</h4>
+            <h4>Edit Periode PKL</h4>
 
-</div>
+        </div>
 
-<div class="card-body">
+        <div class="card-body">
 
-<form action="proses_edit.php" method="POST">
+            <form action="proses_edit.php" method="POST">
 
-<input
-type="hidden"
-name="id"
-value="<?= $row['id']; ?>">
+                <input type="hidden" name="id" value="<?php echo $periode['id']; ?>">
 
-<div class="mb-3">
+                <div class="mb-3">
 
-<label>Nama Periode</label>
+                    <label>Nama Periode</label>
 
-<input
-type="text"
-name="nama_periode"
-class="form-control"
-value="<?= $row['nama_periode']; ?>"
-required>
+                    <input type="text" name="nama_periode" class="form-control"
+                        value="<?php echo $periode['nama_periode']; ?>" required>
 
-</div>
+                </div>
 
-<div class="mb-3">
+                <div class="mb-3">
 
-<label>Tanggal Mulai</label>
+                    <label>Tanggal Mulai</label>
 
-<input
-type="date"
-name="tanggal_mulai"
-class="form-control"
-value="<?= $row['tanggal_mulai']; ?>"
-required>
+                    <input type="date" name="tanggal_mulai" class="form-control"
+                        value="<?php echo $periode['tanggal_mulai']; ?>" required>
 
-</div>
+                </div>
 
-<div class="mb-3">
+                <div class="mb-3">
 
-<label>Tanggal Selesai</label>
+                    <label>Tanggal Selesai</label>
 
-<input
-type="date"
-name="tanggal_selesai"
-class="form-control"
-value="<?= $row['tanggal_selesai']; ?>"
-required>
+                    <input type="date" name="tanggal_selesai" class="form-control"
+                        value="<?php echo $periode['tanggal_selesai']; ?>" required>
 
-</div>
+                </div>
 
-<div class="mb-3">
+                <div class="mb-3">
 
-<label>Status</label>
+                    <label>Status</label>
 
-<select
-name="status"
-class="form-control">
+                    <select name="status" class="form-control">
 
-<option
-value="aktif"
-<?= ($row['status']=="aktif") ? "selected" : ""; ?>>
-Aktif
-</option>
+                        <option value="aktif" <?php echo ($periode['status']=="aktif") ? "selected" : ""; ?>>
+                            Aktif
+                        </option>
 
-<option
-value="selesai"
-<?= ($row['status']=="selesai") ? "selected" : ""; ?>>
-Selesai
-</option>
+                        <option value="selesai" <?php echo ($periode['status']=="selesai") ? "selected" : ""; ?>>
+                            Selesai
+                        </option>
 
-</select>
+                    </select>
 
-</div>
+                </div>
 
-<button
-class="btn btn-warning">
+                <button class="btn btn-warning">
 
-<i class="fa-solid fa-pen"></i>
+                    <i class="fa-solid fa-pen"></i>
 
-Update
+                    Update
 
-</button>
+                </button>
 
-<a
-href="index.php"
-class="btn btn-secondary">
+                <a href="index.php" class="btn btn-secondary">
 
-Kembali
+                    Kembali
 
-</a>
+                </a>
 
-</form>
+            </form>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
 </div>
 

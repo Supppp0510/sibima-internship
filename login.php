@@ -7,6 +7,8 @@
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<!-- Library SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
     :root{
@@ -17,6 +19,7 @@
 
     * { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
 
+    /* --- KODE ORISINAL ANDA (TAMPILAN LAPTOP TIDAK BERUBAH SAMA SEKALI) --- */
     body {
         min-height: 100vh;
         margin: 0;
@@ -28,26 +31,20 @@
         padding-left: 1rem;
         padding-right: 1rem;
 
-        /* 1. Tambahkan foto sebagai background dasar di sini */
-        /* Pastikan arah path '../assets/img/...' sesuai dengan posisi file php kamu */
         background-image: url('assets/img/bg.jpg'); 
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
 
-    /* 2. Pindahkan efek gradient ke lapisan ::before agar jadi overlay (kaca film transparan) */
     body::before {
         content: '';
         position: absolute;
-        inset: 0; /* Membuat overlay menutupi seluruh layar */
-        
-        /* Gunakan warna RGBA (A = Alpha/Transparansi). 
-           Angka 0.85 di belakang artinya opacity 85%. Ubah jadi 0.7 kalau mau foto lebih kelihatan */
-        background: linear-gradient(-45deg, rgba(30, 58, 138, 0.85), rgba(37, 99, 235, 0.85), rgba(8, 145, 178, 0.85), rgba(15, 23, 42, 0.9));
+        inset: 0; 
+        background: linear-gradient(160deg, rgba(15, 23, 42, 0.92), rgba(15, 42, 74, 0.9), rgba(8, 30, 54, 0.94));
         background-size: 400% 400%;
         animation: gradientShift 12s ease infinite;
-        z-index: 0; /* Taruh di atas foto dasar */
+        z-index: 0; 
     }
 
     @keyframes gradientShift{
@@ -60,13 +57,13 @@
         position: absolute;
         border-radius: 50%;
         filter: blur(60px);
-        opacity: 0.35;
+        opacity: 0.25;
         z-index: 1;
         animation: float 8s ease-in-out infinite;
     }
-    .blob1{ width: 300px; height: 300px; background: #06b6d4; top: -80px; left: -80px; }
-    .blob2{ width: 250px; height: 250px; background: #3b82f6; bottom: -60px; right: -60px; animation-delay: 2s; }
-    .blob3{ width: 200px; height: 200px; background: #22d3ee; top: 60%; left: 70%; animation-delay: 4s; }
+    .blob1{ width: 300px; height: 300px; background: #1e40af; top: -80px; left: -80px; }
+    .blob2{ width: 250px; height: 250px; background: #0e7490; bottom: -60px; right: -60px; animation-delay: 2s; }
+    .blob3{ width: 200px; height: 200px; background: #164e63; top: 60%; left: 70%; animation-delay: 4s; }
 
     @keyframes float{
         0%,100%{ transform: translateY(0) translateX(0); }
@@ -87,13 +84,11 @@
         padding: 2.5rem 2rem;
         animation: fadeUp 0.7s ease;
         
-        /* Properti tambahan untuk efek 3D Tilt */
         transform-style: preserve-3d;
         will-change: transform;
         transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
     }
 
-    /* Efek pantulan cahaya (Glare) */
     .login-card .tilt-glare{
         position: absolute;
         inset: 0;
@@ -109,23 +104,29 @@
     }
 
     @keyframes fadeUp{
-        from{ opacity: 0; margin-top: 40px; } /* Gunakan margin-top untuk hindari jumping */
+        from{ opacity: 0; margin-top: 40px; } 
         to{ opacity: 1; margin-top: 0; }
     }
 
     .logo-circle{
-        width: 70px;
-        height: 70px;
+        width: 90px;
+        height: 90px;
         margin: 0 auto 1rem;
         border-radius: 50%;
-        background: linear-gradient(135deg, var(--primary), var(--accent));
+        background: #ffffff;
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow: 0 8px 20px rgba(37,99,235,0.4);
+        overflow: hidden;
+        padding: 8px;
     }
 
-    .logo-circle i{ font-size: 1.8rem; color: #fff; }
+    .logo-circle img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
 
     .card-title-custom{
         text-align: center;
@@ -228,9 +229,31 @@
         color: #94a3b8;
     }
 
-    .alert-custom{
-        border-radius: 10px;
-        font-size: 0.85rem;
+    /* --- TAMBAHAN KHUSUS UNTUK HP (Layar di bawah 768px) --- */
+    @media screen and (max-width: 768px) {
+        html, body {
+            background-color: #081e36; /* Warna gelap mencegah putih tembus di bawah */
+        }
+        
+        body {
+            overflow-y: auto; 
+            align-items: flex-start; 
+            padding-top: 2.5rem; 
+            padding-bottom: 2.5rem; 
+            background-attachment: fixed; /* Mengunci gambar background agar tidak tergulung */
+        }
+        
+        body::before {
+            position: fixed; /* Mengunci lapisan gradien transparan */
+        }
+
+        .blob {
+            position: fixed; /* KUNCI: Mencegah elemen blur "tumpah" ke bawah & menciptakan area scroll kosong */
+        }
+        
+        .login-card {
+            margin: auto; 
+        }
     }
 </style>
 </head>
@@ -245,17 +268,11 @@
     <div class="tilt-glare"></div>
 
     <div class="logo-circle">
-        <i class="bi bi-cone-striped"></i>
+        <img src="assets/img/sibima.png" alt="Logo SIBIMA">
     </div>
 
-    <h4 class="card-title-custom">SIPKL BM</h4>
-    <p class="subtitle">Sistem Informasi Pekerjaan &amp; Kerusakan Jalan — Bina Marga</p>
-
-    <?php if (isset($_GET['error'])): ?>
-    <div class="alert alert-danger alert-custom py-2 mb-3" role="alert">
-        <i class="bi bi-exclamation-circle me-1"></i> Email atau password salah.
-    </div>
-    <?php endif; ?>
+    <h4 class="card-title-custom">SIBIMA INTERNSHIP</h4>
+    <p class="subtitle">Sistem Informasi Bina Marga Internship</p>
 
     <form action="proses_login.php" method="POST" id="loginForm">
 
@@ -287,7 +304,7 @@
         <div class="form-check-custom">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="remember" name="remember">
-                <label class="form-check-label" for="remember" style="color:#64748b;">Ingat saya</label>
+                <label class="form-check-label" for="remember" style="color:#64748b;">Ingat Password</label>
             </div>
             <a href="#">Lupa password?</a>
         </div>
@@ -298,7 +315,7 @@
 
         <div class="mt-4 text-center">
             <span style="color: #2a3a5e; font-size: 0.9rem;">Belum punya akun? </span>
-            <a href="register.php" class="text-decoration-none fw-bold" style="color: #2a5298;">Daftar di sini</a>
+            <a href="register.php" class="text-decoration-none fw-bold" style="color: #2a5298;">Daftar</a>
         </div>
 
     </form>
@@ -341,7 +358,7 @@
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
 
-        const maxTilt = 4; // derajat maksimal kemiringan
+        const maxTilt = 4;
 
         const rotateY = ((x - centerX) / centerX) * maxTilt;
         const rotateX = -((y - centerY) / centerY) * maxTilt;
@@ -349,7 +366,6 @@
         tiltCard.style.transform = 
             `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
 
-        // Posisi glare ngikutin cursor
         const glareX = (x / rect.width) * 100;
         const glareY = (y / rect.height) * 100;
         tiltCard.style.setProperty('--glare-x', glareX + '%');
@@ -363,6 +379,19 @@
         tiltCard.classList.remove('tilting');
     });
 </script>
+
+<!-- 4. Trigger Notifikasi SweetAlert jika redirect dari proses login gagal -->
+<?php if (isset($_GET['error'])): ?>
+<script>
+    Swal.fire({
+        title: 'Login Gagal!',
+        text: 'Email atau password yang Anda masukkan salah.',
+        icon: 'error',
+        confirmButtonColor: '#dc3545',
+        confirmButtonText: 'Coba Lagi'
+    });
+</script>
+<?php endif; ?>
 
 </body>
 </html>

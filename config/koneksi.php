@@ -3,11 +3,12 @@
 $host = "localhost";
 $user = "root";
 $pass = "Root123!";
-$db   = "sipkl_bm_jatim";
+$db   = "sibima-internship";
+$port = "3307";
 
-$conn = mysqli_connect($host, $user, $pass, $db);
+$conn = mysqli_connect($host, $user, $pass, $db, $port);
 
-if (!$conn) {
+if (! $conn) {
     die("Koneksi Database Gagal : " . mysqli_connect_error());
 }
 

@@ -8,7 +8,7 @@
 $qNotifPendaftaran = mysqli_query($conn, "
     SELECT p.id, m.nama, p.tanggal_daftar
     FROM pendaftaran p
-    LEFT JOIN mahasiswa m ON p.mahasiswa_id = m.id
+    LEFT JOIN pelajar m ON p.pelajar_id = m.id
     WHERE p.status = 'menunggu'
     ORDER BY p.id DESC
     LIMIT 5
@@ -19,7 +19,7 @@ $totalNotifPendaftaran = mysqli_num_rows($qNotifPendaftaran);
 $qNotifLogbook = mysqli_query($conn, "
     SELECT l.id, m.nama, l.tanggal
     FROM logbook l
-    LEFT JOIN mahasiswa m ON l.mahasiswa_id = m.id
+    LEFT JOIN pelajar m ON l.pelajar_id = m.id
     WHERE l.status = 'menunggu'
     ORDER BY l.id DESC
     LIMIT 5
@@ -39,8 +39,9 @@ $totalNotifikasi = $totalNotifPendaftaran + $totalNotifLogbook;
     </div>
 
     <div>
-        <h5>
-            SIPKL BM JATIM
+        <h5 class="navbar-title">
+            <span class="brand-main">SIBIMA</span>
+            <span class="brand-sub">INTERNSHIP</span>
         </h5>
     </div>
 
@@ -83,29 +84,29 @@ $totalNotifikasi = $totalNotifPendaftaran + $totalNotifLogbook;
 
                     <?php }else{ ?>
 
-                        <?php while($row = mysqli_fetch_assoc($qNotifPendaftaran)){ ?>
-                        <a href="<?= BASE_URL ?>admin/pendaftaran/index.php" class="notif-item">
-                            <div class="notif-icon notif-icon-primary">
-                                <i class="fa-solid fa-file-signature"></i>
-                            </div>
-                            <div class="notif-text">
-                                <strong><?= $row['nama']; ?></strong> mengajukan pendaftaran PKL baru
-                                <div class="notif-time"><?= date('d-m-Y', strtotime($row['tanggal_daftar'])); ?></div>
-                            </div>
-                        </a>
-                        <?php } ?>
+                        <?php while($notif = mysqli_fetch_assoc($qNotifPendaftaran)){ ?>
+<a href="<?= BASE_URL ?>admin/pendaftaran/index.php" class="notif-item">
+    <div class="notif-icon notif-icon-primary">
+        <i class="fa-solid fa-file-signature"></i>
+    </div>
+    <div class="notif-text">
+        <strong><?= $notif['nama']; ?></strong> mengajukan pendaftaran PKL baru
+        <div class="notif-time"><?= date('d-m-Y', strtotime($notif['tanggal_daftar'])); ?></div>
+    </div>
+</a>
+<?php } ?>
 
-                        <?php while($row = mysqli_fetch_assoc($qNotifLogbook)){ ?>
-                        <a href="<?= BASE_URL ?>admin/logbook/index.php" class="notif-item">
-                            <div class="notif-icon notif-icon-warning">
-                                <i class="fa-solid fa-book-open"></i>
-                            </div>
-                            <div class="notif-text">
-                                <strong><?= $row['nama']; ?></strong> mengirim logbook, menunggu verifikasi
-                                <div class="notif-time"><?= date('d-m-Y', strtotime($row['tanggal'])); ?></div>
-                            </div>
-                        </a>
-                        <?php } ?>
+<?php while($notif = mysqli_fetch_assoc($qNotifLogbook)){ ?>
+<a href="<?= BASE_URL ?>admin/logbook/index.php" class="notif-item">
+    <div class="notif-icon notif-icon-warning">
+        <i class="fa-solid fa-book-open"></i>
+    </div>
+    <div class="notif-text">
+        <strong><?= $notif['nama']; ?></strong> mengirim logbook, menunggu verifikasi
+        <div class="notif-time"><?= date('d-m-Y', strtotime($notif['tanggal'])); ?></div>
+    </div>
+</a>
+<?php } ?>
 
                     <?php } ?>
 
@@ -141,18 +142,8 @@ $totalNotifikasi = $totalNotifPendaftaran + $totalNotifLogbook;
                     </div>
                 </div>
 
-                <a href="<?= BASE_URL ?>admin/profil.php" class="profile-item">
-                    <i class="fa-solid fa-user"></i> Profil Saya
-                </a>
-
                 <a href="<?= BASE_URL ?>admin/ganti_password.php" class="profile-item">
                     <i class="fa-solid fa-key"></i> Ganti Password
-                </a>
-
-                <div class="profile-divider"></div>
-
-                <a href="#" id="btnLogout" class="profile-item profile-item-danger">
-                    <i class="fa-solid fa-right-from-bracket"></i> Logout
                 </a>
 
             </div>
@@ -163,6 +154,70 @@ $totalNotifikasi = $totalNotifPendaftaran + $totalNotifLogbook;
 </div>
 
 <style>
+    .navbar-custom{
+        position: relative;
+        flex-wrap: nowrap !important;
+        gap: 8px;
+    }
+    
+    .btn-profile{
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+    .btn-profile b{
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .navbar-title{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+    }
+    .navbar-title .brand-main{
+        font-weight: 800;
+        font-size: 1.5rem;
+        color: #1e3a8a;
+        letter-spacing: 0.5px;
+    }
+    .navbar-title .brand-sub{
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: #94a3b8;
+        letter-spacing: 1.5px;
+    }
+
+    /* Penyesuaian Responsif Khusus HP (Layar <= 768px) */
+    @media (max-width: 768px){
+        .navbar-title{
+            position: static !important;
+            transform: none !important;
+        }
+        .navbar-title .brand-main{
+            font-size: 1.1rem !important;
+        }
+        .navbar-title .brand-sub{
+            font-size: 0.7rem !important;
+            letter-spacing: 0.5px;
+        }
+        .btn-profile b{ 
+            display: none !important; 
+        }
+        .navbar-custom {
+            padding: 0 10px !important;
+            gap: 4px !important;
+        }
+    }
+
     .btn-hamburger{
         background: none;
         border: none;
@@ -386,17 +441,35 @@ document.addEventListener('DOMContentLoaded', function(){
     var btnToggle = document.getElementById('btnToggleSidebar');
     var storageKey = 'sipklbm_sidebar_hidden';
 
-    // Terapkan state tersembunyi/tampil sesuai yang tersimpan sebelumnya
+    // Set state awal saat halaman dimuat (untuk Desktop)
     var isHidden = sessionStorage.getItem(storageKey) === '1';
-    if(isHidden){
+    if(window.innerWidth > 768 && isHidden){
         body.classList.add('sidebar-hidden');
     }
 
+    // Aksi saat tombol hamburger diklik
     btnToggle.addEventListener('click', function(){
-        body.classList.toggle('sidebar-hidden');
+        if(window.innerWidth <= 768) {
+            // MODE HP: Toggle class 'sidebar-show'
+            body.classList.toggle('sidebar-show');
+        } else {
+            // MODE DESKTOP: Toggle class 'sidebar-hidden'
+            body.classList.toggle('sidebar-hidden');
+            
+            // Simpan state khusus Desktop ke session
+            var nowHidden = body.classList.contains('sidebar-hidden');
+            sessionStorage.setItem(storageKey, nowHidden ? '1' : '0');
+        }
+    });
 
-        var nowHidden = body.classList.contains('sidebar-hidden');
-        sessionStorage.setItem(storageKey, nowHidden ? '1' : '0');
+    // Menutup sidebar di HP saat menekan area gelap (overlay)
+    document.addEventListener('click', function(event) {
+        if (window.innerWidth <= 768 && body.classList.contains('sidebar-show')) {
+            // Jika yang diklik BUKAN sidebar BUKAN JUGA tombol hamburger
+            if (!event.target.closest('.sidebar') && !event.target.closest('#btnToggleSidebar')) {
+                body.classList.remove('sidebar-show');
+            }
+        }
     });
 
     // Konfirmasi sebelum logout

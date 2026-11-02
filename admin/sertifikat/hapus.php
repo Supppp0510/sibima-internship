@@ -15,8 +15,8 @@ m.nama
 
 FROM sertifikat s
 
-LEFT JOIN mahasiswa m
-ON s.mahasiswa_id=m.id
+LEFT JOIN pelajar m
+ON s.pelajar_id=m.id
 
 WHERE s.id='$id'
 ");

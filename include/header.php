@@ -26,7 +26,7 @@
     <!-- CSS Kita -->
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
 
-    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 

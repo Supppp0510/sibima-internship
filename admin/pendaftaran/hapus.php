@@ -58,13 +58,13 @@ WHERE id='$id'
 
 if($hapus){
 
-    $mhs = mysqli_query($conn,"
+    $pelajar = mysqli_query($conn,"
     SELECT nama
-    FROM mahasiswa
-    WHERE id='".$data['mahasiswa_id']."'
+    FROM pelajar
+    WHERE id='".$data['pelajar_id']."'
     ");
 
-    $nama = mysqli_fetch_assoc($mhs);
+    $nama = mysqli_fetch_assoc($pelajar);
 
     activityLog(
 

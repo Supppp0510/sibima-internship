@@ -7,6 +7,7 @@
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
     :root{
@@ -44,7 +45,7 @@
         
         /* Gunakan warna RGBA (A = Alpha/Transparansi). 
            Angka 0.85 di belakang artinya opacity 85%. Ubah jadi 0.7 kalau mau foto lebih kelihatan */
-        background: linear-gradient(-45deg, rgba(30, 58, 138, 0.85), rgba(37, 99, 235, 0.85), rgba(8, 145, 178, 0.85), rgba(15, 23, 42, 0.9));
+        background: linear-gradient(160deg, rgba(15, 23, 42, 0.92), rgba(15, 42, 74, 0.9), rgba(8, 30, 54, 0.94));
         background-size: 400% 400%;
         animation: gradientShift 12s ease infinite;
         z-index: 0; /* Taruh di atas foto dasar */
@@ -60,13 +61,13 @@
         position: absolute;
         border-radius: 50%;
         filter: blur(60px);
-        opacity: 0.35;
+        opacity: 0.25;
         z-index: 1;
         animation: float 8s ease-in-out infinite;
     }
-    .blob1{ width: 300px; height: 300px; background: #06b6d4; top: -80px; left: -80px; }
-    .blob2{ width: 250px; height: 250px; background: #3b82f6; bottom: -60px; right: -60px; animation-delay: 2s; }
-    .blob3{ width: 200px; height: 200px; background: #22d3ee; top: 60%; left: 70%; animation-delay: 4s; }
+    .blob1{ width: 300px; height: 300px; background: #1e40af; top: -80px; left: -80px; }
+    .blob2{ width: 250px; height: 250px; background: #0e7490; bottom: -60px; right: -60px; animation-delay: 2s; }
+    .blob3{ width: 200px; height: 200px; background: #164e63; top: 60%; left: 70%; animation-delay: 4s; }
 
     @keyframes float{
         0%,100%{ transform: translateY(0) translateX(0); }
@@ -112,19 +113,26 @@ from{ opacity: 0; margin-top: 40px; }
         to{ opacity: 1; margin-top: 0; }
     }
 
+    /* Logo diganti dari icon bootstrap menjadi gambar logo SIBIMA */
     .logo-circle{
-        width: 52px;
-        height: 52px;
+        width: 68px;
+        height: 68px;
         margin: 0 auto 0.6rem;
         border-radius: 50%;
-        background: linear-gradient(135deg, var(--primary), var(--accent));
+        background: #ffffff;
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow: 0 8px 20px rgba(37,99,235,0.4);
+        overflow: hidden;
+        padding: 6px;
     }
 
-    .logo-circle i{ font-size: 1.4rem; color: #fff; }
+    .logo-circle img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
 
     .card-title-custom{
         text-align: center;
@@ -254,11 +262,11 @@ from{ opacity: 0; margin-top: 40px; }
     <div class="tilt-glare"></div>
 
     <div class="logo-circle">
-        <i class="bi bi-person-plus-fill"></i>
+        <img src="assets/img/sibima.png" alt="Logo SIBIMA">
     </div>
 
-    <h4 class="card-title-custom">Daftar SIPKL BM</h4>
-    <p class="subtitle">Buat akun baru untuk mengakses SIPKL BM</p>
+    <h4 class="card-title-custom">SIBIMA INTERNSHIP</h4>
+    <p class="subtitle">Daftar untuk mengakses SIBIMA</p>
 
     <form id="formRegister" action="proses_register.php" method="POST">
 
@@ -321,7 +329,7 @@ from{ opacity: 0; margin-top: 40px; }
         </button>
 
         <div class="footer-link">
-            Sudah punya akun? <a href="login.php">Login di sini</a>
+            Sudah punya akun? <a href="login.php">Login</a>
         </div>
 
     </form>
@@ -355,7 +363,7 @@ from{ opacity: 0; margin-top: 40px; }
         toggleReIcon.classList.toggle('bi-eye-slash-fill');
     });
 
-    // 3. LOGIKA VALIDASI COCOK/TIDAK COCOK + LOADING STATE SAAT SUBMIT
+// 3. LOGIKA VALIDASI COCOK/TIDAK COCOK + LOADING STATE SAAT SUBMIT
     const form = document.getElementById('formRegister');
     const btnRegister = document.getElementById('btnRegister');
     const btnText = document.getElementById('btnText');
@@ -364,11 +372,20 @@ from{ opacity: 0; margin-top: 40px; }
 
         if (password.value !== rePassword.value) {
             event.preventDefault();
-            alert('Konfirmasi password tidak cocok! Silakan ulangi pengisian password.');
+            
+            // Mengganti alert() bawaan dengan SweetAlert2
+            Swal.fire({
+                title: 'Password Tidak Cocok!',
+                text: 'Konfirmasi password tidak cocok! Silakan ulangi pengisian password.',
+                icon: 'warning',
+                confirmButtonColor: '#0d6efd',
+                confirmButtonText: 'Pengisian Ulang'
+            }).then(() => {
+                password.value = "";
+                rePassword.value = "";
+                password.focus();
+            });
 
-            password.value = "";
-            rePassword.value = "";
-            password.focus();
             return;
         }
 
