@@ -155,6 +155,13 @@ Jangan menonaktifkan (`disabled`) tombol submit di dalam handler `submit` form: 
 
 Dikembangkan sebagai proyek magang di Dinas PU Bina Marga Jawa Timur oleh tim magang Universitas Negeri Surabaya (S1 Pendidikan Teknologi Informasi).
 
+| Nama | Bagian |
+|---|---|
+| Indrianto Rizal Pramana Purwidya | Backend |
+| Mahendra Alwi Fadhlan | Frontend |
+| Rivaldo Fajar Ardiansyah | Backend |
+| Yusuf Ramadhan Morti Sondang Simanjuntak | Frontend |
+
 ---
 
 &copy; 2026 IT DPU BINA MARGA JATIM
